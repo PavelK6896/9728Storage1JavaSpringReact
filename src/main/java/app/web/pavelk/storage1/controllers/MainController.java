@@ -18,7 +18,7 @@ public class MainController {
 
     @GetMapping("/")
     public String homePage() {
-        return "./static/index.html";
+        return "index";
     }
 
     @GetMapping("/admin")

@@ -10,8 +10,8 @@ create table users
 
 
 insert into users (password, email, username)
-values ('$2y$12$6ZsHZWHxdMbC8OVCdoZSoOH6PES3wAOAB6NXqJhkV/lTlTh570i3W', 'admin@gmail.com', '1'),
-       ('$2y$12$6ZsHZWHxdMbC8OVCdoZSoOH6PES3wAOAB6NXqJhkV/lTlTh570i3W', 'user@gmail.com', '2');
+values ('$2y$12$DWCr26nVgs4NQupw6JQsxeXFpbyXOYzbwk2iVJa/9C9/UhsHfxFn6', 'admin@gmail.com', 'admin1'),
+       ('$2y$12$n3TOGQcvCMF5R8/p.jGfKOooLjCo3jA7HO5kIMzyUHI25HmstOSKq', 'user@gmail.com', 'user2');
 
 drop table if exists roles;
 create table roles

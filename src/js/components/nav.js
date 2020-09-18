@@ -5,9 +5,10 @@ export const Nav = () => {
 
     return (
         <div>
-            <input/>
-            <input/>
-            <button> login</button>
+            nav
+            {/*<input/>*/}
+            {/*<input/>*/}
+            {/*<button> login</button>*/}
         </div>
     )
 

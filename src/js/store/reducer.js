@@ -4,7 +4,7 @@ export function reducer(state, action) {
 
         case 'deleteClient':
             console.log("deleteClient")
-            let filter = state.client.filter((item, i)=> i != action.index);
+            let filter = state.client.filter((item, i)=> item.id != action.id);
             return {
                 ...state,
                 client: filter

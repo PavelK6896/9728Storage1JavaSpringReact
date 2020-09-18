@@ -25,6 +25,7 @@ function App() {
                         flexDirection: "column",
                     }}>
                         <Nav/>
+
                         <Client/>
 
                     </div>
