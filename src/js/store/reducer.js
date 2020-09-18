@@ -2,12 +2,19 @@ export function reducer(state, action) {
 
     switch (action.type) {
 
-        case 'deleteClient':
+        case 'error':
+            return {
+                ...state,
+                error: action.error
+            }
+
+            case 'deleteClient':
             console.log("deleteClient")
             let filter = state.client.filter((item, i)=> item.id != action.id);
             return {
                 ...state,
-                client: filter
+                client: filter,
+                error: ""
             }
 
         case 'addClient':
@@ -15,13 +22,15 @@ export function reducer(state, action) {
             state.client.push(action.client)
             return {
                 ...state,
+                error: ""
             }
 
         case 'getClient':
             console.log("getClient")
             return {
                 ...state,
-                client: action.response
+                client: action.response,
+                error: ""
             }
 
         case 'updateClient':
@@ -36,6 +45,7 @@ export function reducer(state, action) {
 
             return {
                 ...state,
+                error: ""
             }
         default:
             throw new Error();

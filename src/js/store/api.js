@@ -9,7 +9,8 @@ export const useGlobalContext = () => {
 }
 
 const initialState = {
-    client: {}
+    client: {},
+    error: ""
 }
 
 export const ApiState = ({children}) => {
@@ -20,7 +21,7 @@ export const ApiState = ({children}) => {
 
     const getClient = (filter = {}) => {
         console.log("getClient")
-        if (filter.name != null || filter.title != null || filter.phone != null){
+        if (filter.name != null || filter.title != null || filter.phone != null) {
             fetch(urlApi + '/filter', {
                 method: 'POST',
                 headers: {
@@ -32,7 +33,7 @@ export const ApiState = ({children}) => {
                 dispatch({type: 'getClient', response})
             })
 
-        }else{
+        } else {
             fetch(urlApi)
                 .then(response => response.json()).then(response => {
                 dispatch({type: 'getClient', response})
@@ -43,7 +44,7 @@ export const ApiState = ({children}) => {
 
     const updateClient = (client) => {
         console.log("updateClient", client)
-        fetch(urlApi , {
+        fetch(urlApi, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,18 +60,26 @@ export const ApiState = ({children}) => {
     const addClient = (client) => {
         client.id = null
         console.log("addClient", client)
-        fetch(urlApi , {
+        fetch(urlApi, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(client)
-        }).then(response => response.json()).then(response => {
+        }).then(response => {
             console.log(response)
-            client.id = response.id
-            dispatch({type: 'addClient', client})
+            if (response.status == 204) {
+                console.log("204")
+                // const reader = response.body.getReader();
+                dispatch({type: 'error', error: "такой номер уже есть"})
+                return response;
+            } else if (response.status == 200) {
+                console.log("200")
+                let promise = response.json();
+                client.id = promise.id
+                dispatch({type: 'addClient', client})
+            }
         })
-
     }
 
     const deleteClient = (id) => {
@@ -78,15 +87,12 @@ export const ApiState = ({children}) => {
 
         fetch(urlApi + '/' + id, {
             method: 'DELETE'
-        }).then(response =>
-            {
-                if(response.ok){
+        }).then(response => {
+                if (response.ok) {
                     dispatch({type: 'deleteClient', id})
                 }
             }
         )
-
-
 
 
     }

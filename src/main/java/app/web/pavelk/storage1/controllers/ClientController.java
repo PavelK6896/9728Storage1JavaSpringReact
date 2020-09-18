@@ -7,9 +7,12 @@ import app.web.pavelk.storage1.util.filter.ClientFilter;
 import app.web.pavelk.storage1.util.filter.ClientFilterDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +37,7 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<Client> getClient(){
+    public List<Client> getClient() {
         log.info("getClient");
         return clientService.getClient();
     }
@@ -42,7 +45,7 @@ public class ClientController {
     @PostMapping(value = "/filter", consumes = "application/json", produces = "application/json")
     public List<Client> getClient(@RequestBody(required = false) String jsonString) throws JsonProcessingException {
         log.info("getClient filter");
-        if (jsonString != null){
+        if (jsonString != null) {
             ClientFilterDto clientFilterDto = objectMapper.readValue(jsonString, ClientFilterDto.class);
             ClientFilter clientFilter = new ClientFilter(clientFilterDto);
             return clientService.getClient(clientFilter.getSpec());
@@ -52,28 +55,38 @@ public class ClientController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> add(@RequestBody Client client) {
+        log.info("PostMapping! " + client);
+        ResponseEntity<?> tResponseEntity;
 
-
-        ResponseEntity<Client> tResponseEntity;
         if (client != null) {
-            if(client.getId() == null){
-                tResponseEntity = new ResponseEntity<>(clientService.save(client), HttpStatus.OK);
-                log.info("add " + client.toString());
-            }else{
-                if (!clientService.existsById(client.getId())) {
-
+            if (client.getPhone() != null) {
+                if (!clientService.existsByPhone(client.getPhone())) {
+                    client.setId(null);
                     tResponseEntity = new ResponseEntity<>(clientService.save(client), HttpStatus.OK);
-                    log.info("add " + client.toString());
                 } else {
-                    tResponseEntity = new ResponseEntity<>(client, HttpStatus.ALREADY_REPORTED);
-                    log.info("exists product " + client.toString());
-                }
-            }
+                    //такой телефон уже есть
+                    tResponseEntity = ResponseEntity
+                            .status(HttpStatus.NO_CONTENT).contentType(MediaType.TEXT_PLAIN)
+                            .body("phone exists");
 
+
+//                    JSONPObject jsonpObject = new JSONPObject("er", "phone exists");
+//                    System.out.println("sssssssssssss");
+//                    tResponseEntity = new ResponseEntity<>(jsonpObject, HttpStatus.NO_CONTENT);
+                }
+            } else {
+                //нет телефона
+                tResponseEntity = ResponseEntity
+                        .status(HttpStatus.NO_CONTENT)
+                        .body("not phone");
+            }
         } else {
-            tResponseEntity = new ResponseEntity<>(client, HttpStatus.NO_CONTENT);
-            log.info("not product " + client.toString());
+            tResponseEntity = ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body("not client");
+
         }
+
         return tResponseEntity;
     }
 

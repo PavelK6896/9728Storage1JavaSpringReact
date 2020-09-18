@@ -36,6 +36,10 @@ public class ClientService {
         return clientRepository.existsById(id);
     }
 
+    public boolean existsByPhone(String phone){
+        return clientRepository.existsByPhone(phone);
+    }
+
     public Client save(Client client) {
         return clientRepository.save(client);
     }

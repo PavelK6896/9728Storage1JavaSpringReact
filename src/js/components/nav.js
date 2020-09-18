@@ -5,7 +5,6 @@ export const Nav = () => {
 
     return (
         <div>
-            nav
             {/*<input/>*/}
             {/*<input/>*/}
             {/*<button> login</button>*/}
