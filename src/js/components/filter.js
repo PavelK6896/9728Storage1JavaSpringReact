@@ -4,63 +4,89 @@ import {useGlobalContext} from "../store/api";
 export const Filter = () => {
 
     const [filter, setFilter] = useState({});
-    const {state, getClient} = useGlobalContext()
+    const {state, getClient, localFilterClient} = useGlobalContext()
 
     useEffect(() => getClient(), [false])
 
-    const clear = () => {
-        console.log("clear")
-        clearForm();
-        setFilter({})
-        getClient();
 
+    function phoneHandler(e) {
+
+        // localFilterClient(e.target.value)
+
+        setFilter(
+            {
+                ...filter,
+                phone: e.target.value
+            })
     }
 
-    const clearForm = () => {
-        document.getElementById("myForm").reset();
+    function nameHandler(e) {
+        setFilter(
+            {
+                ...filter,
+                name: e.target.value
+            })
+    }
+    function titleHandler(e) {
+        setFilter(
+            {
+                ...filter,
+                title: e.target.value
+            })
+    }
+
+    function clearHandler(e) {
+
+        setFilter(
+            {
+                ...filter,
+                name: "",
+                title: "",
+                phone: "",
+            }
+        )
+        getClient();
+        // localFilterClient("");
     }
 
 
     return (
 
 
-        <form id="myForm">
-        <table className="table">
-            <tbody>
+
             <tr>
 
                     <th scope="row">всего {state.client.length}</th>
                     <th><label><input placeholder={"phone"}
-                                      onChange={e => setFilter({...filter, phone: e.target.value})}
-                                      defaultValue={filter.phone}/></label></th>
+                                      onChange={phoneHandler}
+                                      value={filter.phone}/></label></th>
+
                     <th><label><input placeholder={"name"}
                                       type="text"
-                                      defaultValue={filter.name}
-                                      onChange={e => setFilter({...filter, name: e.target.value})}/></label></th>
+                                      value={filter.name}
+                                      onChange={nameHandler}/></label></th>
                     <th><label> <input placeholder={"title"}
-                                       defaultValue={filter.title}
-                                       onChange={e => setFilter({...filter, title: e.target.value})}/></label></th>
+                                       value={filter.title}
+                                       onChange={titleHandler}/></label></th>
 
                     <th>
                         <button type="button"
                                 onClick={() => getClient(filter)}
                                 className="btn btn-outline-primary">
-                            filter
+                            фильтровать
                         </button>
                     </th>
 
                     <th>
                         <button type="button"
-                                onClick={clear}
+                                onClick={clearHandler}
                                 className="btn btn-outline-primary">
-                            clear
+                            очистить
                         </button>
                     </th>
 
             </tr>
-            </tbody>
-        </table>
-        </form>
+
 
     )
 }

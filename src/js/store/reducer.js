@@ -13,13 +13,13 @@ export function reducer(state, action) {
             let filter = state.client.filter((item, i)=> item.id != action.id);
             return {
                 ...state,
-                client: filter,
+                clientFilter: filter,
                 error: ""
             }
 
         case 'addClient':
             console.log("addClient")
-            state.client.push(action.client)
+            state.clientFilter.push(action.client)
             return {
                 ...state,
                 error: ""
@@ -30,15 +30,17 @@ export function reducer(state, action) {
             return {
                 ...state,
                 client: action.response,
+                clientFilter: action.response,
                 error: ""
             }
+
 
         case 'updateClient':
             console.log("updateClient")
             if (action.client.id){
-                state.client[action.client.id].name = action.client.name
-                state.client[action.client.id].title = action.client.title
-                state.client[action.client.id].phone = action.client.phone
+                state.clientFilter[action.client.id].name = action.client.name
+                state.clientFilter[action.client.id].title = action.client.title
+                state.clientFilter[action.client.id].phone = action.client.phone
             }else{
                 console.log("not found")
             }
@@ -47,6 +49,15 @@ export function reducer(state, action) {
                 ...state,
                 error: ""
             }
+
+        case 'localFilterClient':
+            let filter2 = state.client.filter((item, i) => item.phone.includes(action.ft));
+            return {
+                ...state,
+                 clientFilter: filter2,
+                error: ""
+            }
+
         default:
             throw new Error();
     }

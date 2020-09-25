@@ -12,7 +12,7 @@ export const Client = () => {
 
     return (<div>
 
-        <Filter/>
+
         <table className="table">
             <thead className="thead-dark">
             <tr>
@@ -26,6 +26,7 @@ export const Client = () => {
             </thead>
             <tbody>
 
+            <Filter/>
             <tr>
                 <th scope="row">*</th>
                 <th><label><input defaultValue={client.phone}
@@ -55,13 +56,14 @@ export const Client = () => {
                 </th>
             </tr>
 
+
             {
                 state.error ? <tr><th colSpan="6">{state.error}</th></tr> : <></>
             }
 
 
             {
-                Object.values(state.client).map(
+                Object.values(state.clientFilter).map(
                     (o, index, arr) => {
                         return (
                             <tr key={index}>

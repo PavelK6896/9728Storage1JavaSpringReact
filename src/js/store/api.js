@@ -10,14 +10,15 @@ export const useGlobalContext = () => {
 
 const initialState = {
     client: {},
+    clientFilter: {},
     error: ""
 }
 
 export const ApiState = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const urlApi2 = 'http://localhost:8080/api/v1/client'
-    const urlApi = 'https://storage9729.herokuapp.com/api/v1/client'
+    const urlApi = 'http://localhost:8080/api/v1/client'
+    const urlApi2 = 'https://storage9729.herokuapp.com/api/v1/client'
 
     const getClient = (filter = {}) => {
         console.log("getClient")
@@ -97,13 +98,21 @@ export const ApiState = ({children}) => {
 
     }
 
+    const localFilterClient = (ft) => {
+        dispatch({type: 'localFilterClient', ft})
+
+    }
+
+
+
     return (
         <GlobalContext.Provider value={{
             state,
             getClient,
             updateClient,
             addClient,
-            deleteClient
+            deleteClient,
+            localFilterClient
         }}>
             {children}
         </GlobalContext.Provider>
