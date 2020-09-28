@@ -1,76 +1,74 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useGlobalContext} from "../store/api";
 import {Filter} from "./filter";
+import {FormUpdate} from "./formUpdate";
+import {FormAdd} from "./formAdd";
 
 export const Client = () => {
 
-    const {state, getClient, updateClient, addClient, deleteClient} = useGlobalContext()
-    const [client, setClient] = useState({id: "", name: "", title: "", phone: ""});
+    const {state, getClient, deleteClient} = useGlobalContext()
+    const [client, setClient] = useState({update: false, updateIndex: null, add: false});
+
+    useEffect(() => getClient(), [false])
+
+
     const updateClientLocal = (index) => {
-        setClient(state.client[index])
+        setClient({...client, update: true, updateIndex: index})
+    }
+
+    const cancelClientLocal = () => {
+        setClient({...client, update: false, updateIndex: null})
+    }
+
+    const buttonAddClient = () => {
+        setClient({...client, add: true})
+    }
+
+    const cancelAddClient = () => {
+        setClient({...client, add: false})
     }
 
     return (<div>
 
-
         <table className="table">
             <thead className="thead-dark">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">
+                    <button className="btn btn-outline-primary" onClick={buttonAddClient}>+</button>
+                </th>
                 <th scope="col">Phone</th>
                 <th scope="col">Name</th>
                 <th scope="col">Title</th>
-                <th scope="col">*</th>
-                <th scope="col">*</th>
+                <th scope="col">-</th>
+                <th scope="col">-</th>
             </tr>
             </thead>
             <tbody>
 
             <Filter/>
-            <tr>
-                <th scope="row">*</th>
-                <th><label><input defaultValue={client.phone}
-                                        placeholder={'phone'}
-                                        onChange={e => setClient({...client, phone: e.target.value})}/></label><br/>
-                </th>
-                <th><label><input defaultValue={client.name}
-                                       placeholder={'name'}
-                                       onChange={e => setClient({...client, name: e.target.value})}/></label><br/>
-                </th>
-
-                <th><label><input defaultValue={client.title}
-                                        placeholder={'title'}
-                                        onChange={e => setClient({...client, title: e.target.value})}/></label><br/>
-                </th>
-                <th>
-                    <button type="button"
-                            onClick={() => updateClient(client)}
-                            className="btn btn-outline-primary">
-                   update</button>
-                </th>
-                <th>
-                    <button type="button"
-                            onClick={() => addClient(client)}
-                            className="btn btn-outline-primary">
-                        add</button>
-                </th>
-            </tr>
-
 
             {
-                state.error ? <tr><th colSpan="6">{state.error}</th></tr> : <></>
+                client.add ? <FormAdd cancelAddClient={cancelAddClient}/> : <></>
             }
 
-
+            {
+                state.error ? <tr>
+                    <th colSpan="6">{state.error}</th>
+                </tr> : <></>
+            }
             {
                 Object.values(state.clientFilter).map(
                     (o, index, arr) => {
+                        if (client.updateIndex === index) {
+                            return (<FormUpdate key={index} cancelClientLocal={cancelClientLocal} num={index}/>)
+                        }
+
                         return (
                             <tr key={index}>
                                 {Object.values(o).map((r, i) => {
-                                    if(i === 0){
-                                        return (<td key={i}>  {index + 1}</td>)
-                                    }
+                                        if (i === 0) {
+                                            return (<td key={i}>  {index + 1}</td>)
+                                        }
                                         return (<td key={i}>  {r}</td>)
                                     }
                                 )}
@@ -78,7 +76,12 @@ export const Client = () => {
                                 <td>
                                     <button type="button"
                                             onClick={() => updateClientLocal(index)}
-                                            className="btn btn-outline-primary">
+                                            className="btn btn-outline-primary"
+                                            style={{
+                                                width: '150px',
+                                            }}
+
+                                    >
 
                                         <svg width="1em" height="1em" viewBox="0 0 16 16"
                                              className="bi bi-box-arrow-in-down"
@@ -88,17 +91,23 @@ export const Client = () => {
                                             <path fillRule="evenodd"
                                                   d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
                                         </svg>
-                                        update
+                                        изменить
                                     </button>
                                 </td>
 
                                 <td>
                                     <button type="button"
                                             onClick={() => deleteClient(o.id)}
-                                            className="btn btn-outline-primary">
+                                            className="btn btn-outline-primary"
+                                            style={{
+                                                width: '150px',
+                                            }}
+
+                                    >
 
                                         <svg width="1em" height="1em" viewBox="0 0 16 16"
                                              className="bi bi-x-circle-fill"
+
                                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fillRule="evenodd"
                                                   d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
@@ -108,12 +117,11 @@ export const Client = () => {
                                     </button>
                                 </td>
 
-                            </tr>)
+                            </tr>
+                        )
                     }
                 )
             }
-
-
 
             </tbody>
         </table>

@@ -17,11 +17,10 @@ const initialState = {
 export const ApiState = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const urlApi = 'http://localhost:8080/api/v1/client'
-    const urlApi2 = 'https://storage9729.herokuapp.com/api/v1/client'
+    const urlApi2 = 'http://localhost:8080/api/v1/client'
+    const urlApi = 'https://storage9729.herokuapp.com/api/v1/client'
 
     const getClient = (filter = {}) => {
-        console.log("getClient")
         if (filter.name != null || filter.title != null || filter.phone != null) {
             fetch(urlApi + '/filter', {
                 method: 'POST',
@@ -44,23 +43,25 @@ export const ApiState = ({children}) => {
     }
 
     const updateClient = (client) => {
-        console.log("updateClient", client)
+
         fetch(urlApi, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(client)
-        }).then(response => response.json()).then(response => {
-            console.log(response)
-            dispatch({type: 'updateClient', client})
         })
+            .then(response => {
+                return response.json()
+            })
+            .then(response => {
+                dispatch({type: 'updateClient', response})
+            })
 
     }
 
     const addClient = (client) => {
         client.id = null
-        console.log("addClient", client)
         fetch(urlApi, {
             method: 'POST',
             headers: {
@@ -68,42 +69,38 @@ export const ApiState = ({children}) => {
             },
             body: JSON.stringify(client)
         }).then(response => {
-            console.log(response)
             if (response.status == 204) {
-                console.log("204")
-                // const reader = response.body.getReader();
                 dispatch({type: 'error', error: "такой номер уже есть"})
-                return response;
             } else if (response.status == 200) {
-                console.log("200")
-                let promise = response.json();
-                client.id = promise.id
-                dispatch({type: 'addClient', client})
+                return response.json();
             }
+        }).then(response => {
+            if (!response) {
+                return
+            }
+            client.id = response.id
+            dispatch({type: 'addClient', client})
         })
     }
 
     const deleteClient = (id) => {
-        console.log("deleteClient", id)
 
         fetch(urlApi + '/' + id, {
             method: 'DELETE'
         }).then(response => {
+
                 if (response.ok) {
                     dispatch({type: 'deleteClient', id})
                 }
+
             }
         )
-
-
     }
 
     const localFilterClient = (ft) => {
         dispatch({type: 'localFilterClient', ft})
 
     }
-
-
 
     return (
         <GlobalContext.Provider value={{

@@ -7,7 +7,6 @@ export const Footer = () => {
             <div style={{
                 textAlign: "center",
             }}>&reg;&nbsp;&copy;&nbsp;2020&nbsp;Все прова защещены.
-                asadasdasd
             </div>
 
     </div>)

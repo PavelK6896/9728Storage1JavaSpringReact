@@ -8,9 +8,8 @@ export function reducer(state, action) {
                 error: action.error
             }
 
-            case 'deleteClient':
-            console.log("deleteClient")
-            let filter = state.client.filter((item, i)=> item.id != action.id);
+        case 'deleteClient':
+            let filter = state.clientFilter.filter((item, i) => item.id !== action.id);
             return {
                 ...state,
                 clientFilter: filter,
@@ -18,15 +17,14 @@ export function reducer(state, action) {
             }
 
         case 'addClient':
-            console.log("addClient")
             state.clientFilter.push(action.client)
             return {
                 ...state,
+                clientFilter: state.clientFilter,
                 error: ""
             }
 
         case 'getClient':
-            console.log("getClient")
             return {
                 ...state,
                 client: action.response,
@@ -34,27 +32,26 @@ export function reducer(state, action) {
                 error: ""
             }
 
-
         case 'updateClient':
-            console.log("updateClient")
-            if (action.client.id){
-                state.clientFilter[action.client.id].name = action.client.name
-                state.clientFilter[action.client.id].title = action.client.title
-                state.clientFilter[action.client.id].phone = action.client.phone
-            }else{
-                console.log("not found")
+            if (action.response.id) {
+                state.clientFilter.forEach((item, i) => {
+                    if (item.id === action.response.id) {
+                        state.clientFilter[i] = action.response
+                    }
+                })
+                return {
+                    ...state,
+                    clientFilter: state.clientFilter,
+                    error: ""
+                }
             }
-
-            return {
-                ...state,
-                error: ""
-            }
+            return {...state, error: "not found"}
 
         case 'localFilterClient':
             let filter2 = state.client.filter((item, i) => item.phone.includes(action.ft));
             return {
                 ...state,
-                 clientFilter: filter2,
+                clientFilter: filter2,
                 error: ""
             }
 

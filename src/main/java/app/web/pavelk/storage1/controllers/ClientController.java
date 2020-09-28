@@ -7,10 +7,8 @@ import app.web.pavelk.storage1.util.filter.ClientFilter;
 import app.web.pavelk.storage1.util.filter.ClientFilterDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,11 +66,6 @@ public class ClientController {
                     tResponseEntity = ResponseEntity
                             .status(HttpStatus.NO_CONTENT).contentType(MediaType.TEXT_PLAIN)
                             .body("phone exists");
-
-
-//                    JSONPObject jsonpObject = new JSONPObject("er", "phone exists");
-//                    System.out.println("sssssssssssss");
-//                    tResponseEntity = new ResponseEntity<>(jsonpObject, HttpStatus.NO_CONTENT);
                 }
             } else {
                 //нет телефона
@@ -109,10 +102,13 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        log.info("Delete id " + id);
-        clientService.deleteById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+    public ResponseEntity<?> delete(@PathVariable(required = false) Long id) {
+        if (id != null) {
+            log.info("Delete id " + id);
+            clientService.deleteById(id);
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not id");
     }
 
 }

@@ -51,12 +51,8 @@ export const Filter = () => {
 
 
     return (
-
-
-
             <tr>
-
-                    <th scope="row">всего {state.client.length}</th>
+                    <th scope="row">всего {state.clientFilter.length}</th>
                     <th><label><input placeholder={"phone"}
                                       onChange={phoneHandler}
                                       value={filter.phone}/></label></th>
@@ -71,6 +67,9 @@ export const Filter = () => {
 
                     <th>
                         <button type="button"
+                                style={{
+                                    width: '150px',
+                                }}
                                 onClick={() => getClient(filter)}
                                 className="btn btn-outline-primary">
                             фильтровать
@@ -79,6 +78,9 @@ export const Filter = () => {
 
                     <th>
                         <button type="button"
+                                style={{
+                                    width: '150px',
+                                }}
                                 onClick={clearHandler}
                                 className="btn btn-outline-primary">
                             очистить
