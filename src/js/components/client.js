@@ -34,13 +34,13 @@ export const Client = () => {
             <thead className="thead-dark">
             <tr>
                 <th scope="col">
-                    <button className="btn btn-outline-primary" onClick={buttonAddClient}>+</button>
+                    <button type="button" className="btn btn-primary" onClick={buttonAddClient}>+</button>
                 </th>
                 <th scope="col">Phone</th>
                 <th scope="col">Name</th>
                 <th scope="col">Title</th>
-                <th scope="col">-</th>
-                <th scope="col">-</th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
             </tr>
             </thead>
             <tbody>
@@ -67,7 +67,7 @@ export const Client = () => {
                             <tr key={index}>
                                 {Object.values(o).map((r, i) => {
                                         if (i === 0) {
-                                            return (<td key={i}>  {index + 1}</td>)
+                                            return (<td key={i}><b>{index + 1}</b><i>(id{r})</i></td>)
                                         }
                                         return (<td key={i}>  {r}</td>)
                                     }
@@ -76,13 +76,13 @@ export const Client = () => {
                                 <td>
                                     <button type="button"
                                             onClick={() => updateClientLocal(index)}
-                                            className="btn btn-outline-primary"
+                                            className="btn btn-info"
                                             style={{
                                                 width: '150px',
                                             }}
 
                                     >
-
+                                        изменить&nbsp;
                                         <svg width="1em" height="1em" viewBox="0 0 16 16"
                                              className="bi bi-box-arrow-in-down"
                                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -91,20 +91,21 @@ export const Client = () => {
                                             <path fillRule="evenodd"
                                                   d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
                                         </svg>
-                                        изменить
+
                                     </button>
                                 </td>
 
                                 <td>
                                     <button type="button"
                                             onClick={() => deleteClient(o.id)}
-                                            className="btn btn-outline-primary"
+                                            className="btn btn-danger"
                                             style={{
                                                 width: '150px',
                                             }}
 
                                     >
 
+                                        удалить&nbsp;
                                         <svg width="1em" height="1em" viewBox="0 0 16 16"
                                              className="bi bi-x-circle-fill"
 
@@ -113,7 +114,6 @@ export const Client = () => {
                                                   d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                                         </svg>
 
-                                        delete
                                     </button>
                                 </td>
 

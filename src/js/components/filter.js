@@ -11,7 +11,7 @@ export const Filter = () => {
 
     function phoneHandler(e) {
 
-        // localFilterClient(e.target.value)
+        localFilterClient(e.target.value)
 
         setFilter(
             {
@@ -46,7 +46,7 @@ export const Filter = () => {
             }
         )
         getClient();
-        // localFilterClient("");
+        localFilterClient("");
     }
 
 
@@ -71,7 +71,7 @@ export const Filter = () => {
                                     width: '150px',
                                 }}
                                 onClick={() => getClient(filter)}
-                                className="btn btn-outline-primary">
+                                className="btn btn-secondary">
                             фильтровать
                         </button>
                     </th>
@@ -82,7 +82,7 @@ export const Filter = () => {
                                     width: '150px',
                                 }}
                                 onClick={clearHandler}
-                                className="btn btn-outline-primary">
+                                className="btn btn-warning">
                             очистить
                         </button>
                     </th>

@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {useGlobalContext} from "../store/api";
+import {isValidName, isValidPhoneNumber, isValidTitle} from "../util/validate";
+
 
 export const FormUpdate = (props) => {
 
@@ -14,21 +16,32 @@ export const FormUpdate = (props) => {
         props.cancelClientLocal()
     }
 
+    const phoneHandler = (e) => {
+        setClient({...client, phone: e.target.value})
+    }
+
+    const isPhone = isValidPhoneNumber(client.phone)
+    const isName = isValidName(client.name)
+    const isTitle = isValidTitle(client.title)
+
     return (
 
         <tr>
             <th scope="row">{client.id}</th>
 
-            <th><label><input defaultValue={client.phone}
+            <th><label><input value={client.phone}
                               placeholder={'phone'}
-                              onChange={e => setClient({...client, phone: e.target.value})}/></label><br/>
+                              style={{borderColor: isPhone ? "green" : "red", outline: 'none',}}
+                              onChange={phoneHandler}/></label><br/>
             </th>
-            <th><label><input defaultValue={client.name}
+            <th><label><input value={client.name}
                               placeholder={'name'}
+                              style={{borderColor: isName ? "green" : "red", outline: 'none',}}
                               onChange={e => setClient({...client, name: e.target.value})}/></label><br/>
             </th>
-            <th><label><input defaultValue={client.title}
+            <th><label><input value={client.title}
                               placeholder={'title'}
+                              style={{borderColor: isTitle ? "green" : "red", outline: 'none',}}
                               onChange={e => setClient({...client, title: e.target.value})}/></label><br/>
             </th>
             <th>
@@ -37,7 +50,10 @@ export const FormUpdate = (props) => {
                             width: '150px',
                         }}
                         onClick={updateClientState}
-                        className="btn btn-outline-primary">
+                        className="btn btn-success"
+                        disabled={!isPhone || !isName || !isTitle}
+
+                >
                     сохранить
                 </button>
             </th>
@@ -47,7 +63,7 @@ export const FormUpdate = (props) => {
                             width: '150px',
                         }}
                         onClick={props.cancelClientLocal}
-                        className="btn btn-outline-primary">
+                        className="btn btn-warning">
                     отменить
                 </button>
             </th>
