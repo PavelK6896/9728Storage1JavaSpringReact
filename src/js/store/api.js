@@ -104,9 +104,9 @@ export const ApiState = ({children}) => {
 
     }
 
-    const getReportOdt = () => {
-        let fileName = 'report'
-        fetch(urlApi + '/report',)
+    const loadReportFile = (format) => {
+        let fileName = format
+        fetch(urlApi + '/' + format)
             .then(resp => {
                 fileName = resp.headers.get("filename")
                 return resp.blob()
@@ -144,7 +144,7 @@ export const ApiState = ({children}) => {
             addClient,
             deleteClient,
             localFilterClient,
-            getReportOdt
+            loadReportFile
         }}>
             {children}
         </GlobalContext.Provider>

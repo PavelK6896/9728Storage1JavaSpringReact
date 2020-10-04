@@ -110,10 +110,9 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not id");
     }
 
-    @GetMapping(value = "/report")
-    public @ResponseBody
-    HttpEntity<? extends Serializable> getReport() {
-        log.info("getReport");
+    @GetMapping(value = "/reportOdt")
+    public HttpEntity<? extends Serializable> getReportOdt() {
+        log.info("getReportOdt");
         ResponseEntity<byte[]> body;
         try {
             body = ResponseEntity
@@ -121,12 +120,50 @@ public class ClientController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.odt")
                     .header("filename", "report1.odt")
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(clientService.getReport().toByteArray());
+                    .body(clientService.getReportOdt().toByteArray());
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.GONE);
-
         }
         return body;
     }
+
+    @GetMapping(value = "/reportXml2")
+    public HttpEntity<? extends Serializable> getReportXml2() {
+        log.info("getReportXml2");
+        ResponseEntity<byte[]> body;
+        try {
+            body = ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.xml")
+                    .header("filename", "report1.xml")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(clientService.getReportXml2().toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.GONE);
+        }
+        return body;
+    }
+
+    @GetMapping(value = "/reportXml")
+    public HttpEntity<? extends Serializable> getReportXml() {
+        log.info("getReportXml");
+        ResponseEntity<byte[]> body;
+        try {
+            body = ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.xml")
+                    .header("filename", "report1.xml")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(clientService.getReportXml().toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.GONE);
+        }
+        return body;
+    }
+
+
+
 }

@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 public class ReportComponent {
 
-    public ByteArrayOutputStream getReport1(List<Client> client) throws Exception {
+    public ByteArrayOutputStream getReportOdt(List<Client> client) throws Exception {
 
         //загрузка шаблона
         ClassPathResource classPathResource = new ClassPathResource("odt/report1.odt", this.getClass().getClassLoader());
