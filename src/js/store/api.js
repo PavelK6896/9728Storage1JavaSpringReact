@@ -17,8 +17,10 @@ const initialState = {
 export const ApiState = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const urlApi2 = 'http://localhost:8080/api/v1/client'
-    const urlApi = 'https://storage9729.herokuapp.com/api/v1/client'
+    const urlApi1 = 'http://localhost:8080/api/v1/client'
+    const urlApi3 = 'https://storage9729.herokuapp.com/api/v1/client'
+    const urlApi = 'http://pavelk.tk/storage1/api/v1/client'
+
 
     const getClient = (filter = {}) => {
         if (filter.name != null || filter.title != null || filter.phone != null) {
@@ -102,6 +104,38 @@ export const ApiState = ({children}) => {
 
     }
 
+    const getReportOdt = () => {
+        let fileName = 'report'
+        fetch(urlApi + '/report',)
+            .then(resp => {
+                fileName = resp.headers.get("filename")
+                return resp.blob()
+            })
+            .then(blob => {
+
+                // let reader = new FileReader();
+                // reader.readAsArrayBuffer(blob)
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = fileName
+                document.body.appendChild(a);
+                a.click();
+
+                // alert(a.download);
+                // console.log(a.download)
+                a.remove();
+                window.URL.revokeObjectURL(url); //не сохроняеть сылку на файл
+            })
+            .catch(() => alert('error file!'));
+
+        // window.open(url, 'to.odt');
+        // alert('your file has downloaded!'); // or you know, something with better UX...
+    }
+
+
     return (
         <GlobalContext.Provider value={{
             state,
@@ -109,7 +143,8 @@ export const ApiState = ({children}) => {
             updateClient,
             addClient,
             deleteClient,
-            localFilterClient
+            localFilterClient,
+            getReportOdt
         }}>
             {children}
         </GlobalContext.Provider>

@@ -9,11 +9,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @RestController
@@ -111,4 +110,23 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not id");
     }
 
+    @GetMapping(value = "/report")
+    public @ResponseBody
+    HttpEntity<? extends Serializable> getReport() {
+        log.info("getReport");
+        ResponseEntity<byte[]> body;
+        try {
+            body = ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.odt")
+                    .header("filename", "report1.odt")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(clientService.getReport().toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.GONE);
+
+        }
+        return body;
+    }
 }

@@ -6,7 +6,7 @@ import {FormAdd} from "./formAdd";
 
 export const Client = () => {
 
-    const {state, getClient, deleteClient} = useGlobalContext()
+    const {state, getClient, deleteClient, getReportOdt} = useGlobalContext()
     const [client, setClient] = useState({update: false, updateIndex: null, add: false});
 
     useEffect(() => getClient(), [false])
@@ -28,6 +28,11 @@ export const Client = () => {
         setClient({...client, add: false})
     }
 
+
+    const buttonOdt = () => {
+        getReportOdt()
+    }
+
     return (<div>
 
         <table className="table">
@@ -39,8 +44,10 @@ export const Client = () => {
                 <th scope="col">Phone</th>
                 <th scope="col">Name</th>
                 <th scope="col">Title</th>
-                <th scope="col"> </th>
-                <th scope="col"> </th>
+                <th scope="col">
+                    <button type="button" className="btn btn-primary" onClick={buttonOdt}>скачать документ</button>
+                </th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
