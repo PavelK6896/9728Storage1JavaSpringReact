@@ -17,9 +17,9 @@ const initialState = {
 export const ApiState = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const urlApi1 = 'http://localhost:8080/api/v1/client'
-    const urlApi3 = 'https://storage9729.herokuapp.com/api/v1/client'
-    const urlApi = 'http://pavelk.tk/storage1/api/v1/client'
+    const urlApi = 'http://localhost:8080/api/v1/client'
+    const urlApi2 = 'https://storage9729.herokuapp.com/api/v1/client'
+    const urlApi3 = 'http://pavelk.tk/storage1/api/v1/client'
 
 
     const getClient = (filter = {}) => {

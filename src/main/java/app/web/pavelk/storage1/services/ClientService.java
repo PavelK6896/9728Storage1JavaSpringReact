@@ -4,6 +4,7 @@ import app.web.pavelk.storage1.entities.Client;
 import app.web.pavelk.storage1.repositories.ClientRepository;
 import app.web.pavelk.storage1.util.report.ReportComponent;
 import app.web.pavelk.storage1.util.report.ReportStAXComponent;
+import app.web.pavelk.storage1.util.report.ReportTxtComponent;
 import app.web.pavelk.storage1.util.report.ReportXmlComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,17 +20,19 @@ public class ClientService {
     private final ReportComponent reportComponent;
     private final ReportXmlComponent reportXmlComponent;
     private final ReportStAXComponent reportStAXComponent;
+    private final ReportTxtComponent reportTxtComponent;
     Specification<Client> specification;
     List<Client> list;
 
     @Autowired
     public ClientService(ClientRepository clientRepository, ReportComponent reportComponent,
-                         ReportXmlComponent reportXmlComponent, ReportStAXComponent reportStAXComponent
-    ) {
+                         ReportXmlComponent reportXmlComponent, ReportStAXComponent reportStAXComponent,
+                         ReportTxtComponent reportTxtComponent) {
         this.clientRepository = clientRepository;
         this.reportComponent = reportComponent;
         this.reportXmlComponent = reportXmlComponent;
         this.reportStAXComponent = reportStAXComponent;
+        this.reportTxtComponent = reportTxtComponent;
         this.specification = null;
         this.list = null;
     }
@@ -73,6 +76,10 @@ public class ClientService {
 
     public ByteArrayOutputStream getReportXml2() throws Exception {
         return reportXmlComponent.getReportXml(isListClientCash());
+    }
+
+    public ByteArrayOutputStream getReportTxt() throws Exception {
+        return reportTxtComponent.getReportTxt(isListClientCash());
     }
 
     //кешировать результаты фильтра в оперативке
