@@ -2,10 +2,7 @@ package app.web.pavelk.storage1.services;
 
 import app.web.pavelk.storage1.entities.Client;
 import app.web.pavelk.storage1.repositories.ClientRepository;
-import app.web.pavelk.storage1.util.report.ReportComponent;
-import app.web.pavelk.storage1.util.report.ReportStAXComponent;
-import app.web.pavelk.storage1.util.report.ReportTxtComponent;
-import app.web.pavelk.storage1.util.report.ReportXmlComponent;
+import app.web.pavelk.storage1.util.report.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -21,18 +18,20 @@ public class ClientService {
     private final ReportXmlComponent reportXmlComponent;
     private final ReportStAXComponent reportStAXComponent;
     private final ReportTxtComponent reportTxtComponent;
+    private final ReportPdfComponent reportPdfComponent;
     Specification<Client> specification;
     List<Client> list;
 
     @Autowired
     public ClientService(ClientRepository clientRepository, ReportComponent reportComponent,
                          ReportXmlComponent reportXmlComponent, ReportStAXComponent reportStAXComponent,
-                         ReportTxtComponent reportTxtComponent) {
+                         ReportTxtComponent reportTxtComponent, ReportPdfComponent reportPdfComponent) {
         this.clientRepository = clientRepository;
         this.reportComponent = reportComponent;
         this.reportXmlComponent = reportXmlComponent;
         this.reportStAXComponent = reportStAXComponent;
         this.reportTxtComponent = reportTxtComponent;
+        this.reportPdfComponent = reportPdfComponent;
         this.specification = null;
         this.list = null;
     }
@@ -80,6 +79,11 @@ public class ClientService {
 
     public ByteArrayOutputStream getReportTxt() throws Exception {
         return reportTxtComponent.getReportTxt(isListClientCash());
+    }
+
+
+    public ByteArrayOutputStream getReportPdf() throws Exception {
+        return reportPdfComponent.getReportPdf(isListClientCash());
     }
 
     //кешировать результаты фильтра в оперативке

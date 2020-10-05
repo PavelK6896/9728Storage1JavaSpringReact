@@ -51,7 +51,9 @@ public class ReportComponent {
 
         //в буфер
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
         textDocument.save(byteArrayOutputStream);
+
         byteArrayOutputStream.flush();
 
         return byteArrayOutputStream;
