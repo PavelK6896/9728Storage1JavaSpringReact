@@ -19,19 +19,21 @@ public class ClientService {
     private final ReportStAXComponent reportStAXComponent;
     private final ReportTxtComponent reportTxtComponent;
     private final ReportPdfComponent reportPdfComponent;
+    private final ReportDocxComponent reportDocxComponent;
     Specification<Client> specification;
     List<Client> list;
 
     @Autowired
     public ClientService(ClientRepository clientRepository, ReportComponent reportComponent,
                          ReportXmlComponent reportXmlComponent, ReportStAXComponent reportStAXComponent,
-                         ReportTxtComponent reportTxtComponent, ReportPdfComponent reportPdfComponent) {
+                         ReportTxtComponent reportTxtComponent, ReportPdfComponent reportPdfComponent, ReportDocxComponent reportDocxComponent) {
         this.clientRepository = clientRepository;
         this.reportComponent = reportComponent;
         this.reportXmlComponent = reportXmlComponent;
         this.reportStAXComponent = reportStAXComponent;
         this.reportTxtComponent = reportTxtComponent;
         this.reportPdfComponent = reportPdfComponent;
+        this.reportDocxComponent = reportDocxComponent;
         this.specification = null;
         this.list = null;
     }
@@ -84,6 +86,10 @@ public class ClientService {
 
     public ByteArrayOutputStream getReportPdf() throws Exception {
         return reportPdfComponent.getReportPdf(isListClientCash());
+    }
+
+    public ByteArrayOutputStream getReportDocx() throws Exception {
+        return reportDocxComponent.getReportDocx(isListClientCash());
     }
 
     //кешировать результаты фильтра в оперативке
