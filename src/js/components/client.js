@@ -48,6 +48,10 @@ export const Client = () => {
         loadReportFile('reportDocx')
     }
 
+    const buttonXlsx = () => {
+        loadReportFile('reportXlsx')
+    }
+
     return (<div>
         <table className="table">
             <thead className="thead-dark">
@@ -62,11 +66,11 @@ export const Client = () => {
                     <button type="button" className="btn btn-primary mr-2" onClick={buttonOdt}>odt</button>
                     <button type="button" className="btn btn-primary mr-2" onClick={buttonXml}>xml</button>
                     <button type="button" className="btn btn-primary mr-2" onClick={buttonTxt}>txt</button>
-                    <button type="button" className="btn btn-primary mr-2" onClick={buttonPdf}>pdf</button>
-                    <button type="button" className="btn btn-primary" onClick={buttonDocx}>docx</button>
                 </th>
                 <th scope="col">
-
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonPdf}>pdf</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonDocx}>docx</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonXlsx}>xlsx</button>
                 </th>
             </tr>
             </thead>

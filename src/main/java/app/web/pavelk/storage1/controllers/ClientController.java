@@ -220,5 +220,23 @@ public class ClientController {
     }
 
 
+    @GetMapping(value = "/reportXlsx")
+    public HttpEntity<? extends Serializable> getReportXlsx() {
+        log.info("getReportXlsx");
+        ResponseEntity<byte[]> body;
+        try {
+            body = ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.xlsx")
+                    .header("filename", "report1.xlsx")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(clientService.getReportXlsx().toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.GONE);
+        }
+        return body;
+    }
+
 
 }

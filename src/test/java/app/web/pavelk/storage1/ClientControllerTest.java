@@ -47,6 +47,7 @@ public class ClientControllerTest {
         TextDocument textDocument = (TextDocument) TextDocument.loadDocument(byteArrayInputStream);
 
         List<Table> tableList = textDocument.getTableList();
+        System.out.println("size --- " + tableList.size());
         tableList.forEach(table -> {
             System.out.println(table.getCellByPosition(1, 1).getStringValue());//7920887
             System.out.println(table.getCellByPosition(2, 2).getStringValue());//Valentin
