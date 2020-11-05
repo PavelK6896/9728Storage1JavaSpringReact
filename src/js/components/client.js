@@ -56,7 +56,9 @@ export const Client = () => {
         <table className="table">
             <thead className="thead-dark">
             <tr>
+                <th scope="col"></th>
                 <th scope="col">
+                    <a  className="btn btn-success mr-1" href={"/"}>&lt;-</a>
                     <button type="button" className="btn btn-primary" onClick={buttonAddClient}>+</button>
                 </th>
                 <th scope="col">Phone</th>
@@ -72,6 +74,7 @@ export const Client = () => {
                     <button type="button" className="btn btn-primary mr-2" onClick={buttonDocx}>docx</button>
                     <button type="button" className="btn btn-primary mr-2" onClick={buttonXlsx}>xlsx</button>
                 </th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -96,6 +99,7 @@ export const Client = () => {
 
                         return (
                             <tr key={index}>
+                                <th scope="col"></th>
                                 {Object.values(o).map((r, i) => {
                                         if (i === 0) {
                                             return (<td key={i}><b>{index + 1}</b><i>(id{r})</i></td>)

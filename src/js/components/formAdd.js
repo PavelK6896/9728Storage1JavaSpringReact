@@ -18,6 +18,7 @@ export const FormAdd = (props) => {
 
         <tr>
             <th scope="row"> </th>
+            <th scope="col"></th>
 
             <th><label><input defaultValue={client.phone}
                               placeholder={'phone'}

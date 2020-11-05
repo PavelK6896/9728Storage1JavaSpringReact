@@ -19,8 +19,7 @@ export const ApiState = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const urlApi1 = 'http://localhost:8080/api/v1/client'
     const urlApi2 = 'https://storage9729.herokuapp.com/api/v1/client'
-    const urlApi = 'http://pavelk.tk/storage1/api/v1/client'
-
+    const urlApi = 'http://18.156.192.31/storage1/api/v1/client'
 
     const getClient = (filter = {}) => {
         if (filter.name != null || filter.title != null || filter.phone != null) {
@@ -59,7 +58,6 @@ export const ApiState = ({children}) => {
             .then(response => {
                 dispatch({type: 'updateClient', response})
             })
-
     }
 
     const addClient = (client) => {
@@ -94,7 +92,6 @@ export const ApiState = ({children}) => {
                 if (response.ok) {
                     dispatch({type: 'deleteClient', id})
                 }
-
             }
         )
     }
@@ -135,7 +132,6 @@ export const ApiState = ({children}) => {
         // alert('your file has downloaded!'); // or you know, something with better UX...
     }
 
-
     return (
         <GlobalContext.Provider value={{
             state,
@@ -149,5 +145,4 @@ export const ApiState = ({children}) => {
             {children}
         </GlobalContext.Provider>
     )
-
 }

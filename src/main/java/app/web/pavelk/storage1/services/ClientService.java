@@ -3,7 +3,8 @@ package app.web.pavelk.storage1.services;
 import app.web.pavelk.storage1.entities.Client;
 import app.web.pavelk.storage1.repositories.ClientRepository;
 import app.web.pavelk.storage1.util.report.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
     private final ClientRepository clientRepository;
     private final ReportComponent reportComponent;
@@ -21,34 +23,17 @@ public class ClientService {
     private final ReportPdfComponent reportPdfComponent;
     private final ReportDocxComponent reportDocxComponent;
     private final ReportXlsxComponent reportXlsxComponent;
-    Specification<Client> specification;
-    List<Client> list;
-
-    @Autowired
-    public ClientService(ClientRepository clientRepository, ReportComponent reportComponent,
-                         ReportXmlComponent reportXmlComponent, ReportStAXComponent reportStAXComponent,
-                         ReportTxtComponent reportTxtComponent, ReportPdfComponent reportPdfComponent, ReportDocxComponent reportDocxComponent, ReportXlsxComponent reportXlsxComponent) {
-        this.clientRepository = clientRepository;
-        this.reportComponent = reportComponent;
-        this.reportXmlComponent = reportXmlComponent;
-        this.reportStAXComponent = reportStAXComponent;
-        this.reportTxtComponent = reportTxtComponent;
-        this.reportPdfComponent = reportPdfComponent;
-        this.reportDocxComponent = reportDocxComponent;
-        this.reportXlsxComponent = reportXlsxComponent;
-        this.specification = null;
-        this.list = null;
-    }
-
+    Specification<Client> specification = null;
+//    List<Client> list = null;
 
     public List<Client> getClient() {
         specification = null;
-        return list = clientRepository.findAll();
+        return clientRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public List<Client> getClient(Specification<Client> spec) {
         specification = spec;
-        return list = clientRepository.findAll(spec);
+        return clientRepository.findAll(spec, Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Transactional
@@ -70,32 +55,32 @@ public class ClientService {
     }
 
     public ByteArrayOutputStream getReportOdt() throws Exception {
-        return reportComponent.getReportOdt(isListClientCash());
+        return reportComponent.getReportOdt(isSpecificationGetClient());
     }
 
     public ByteArrayOutputStream getReportXml() throws Exception {
-        return reportStAXComponent.getReportXml(isListClientCash());
+        return reportStAXComponent.getReportXml(isSpecificationGetClient());
     }
 
     public ByteArrayOutputStream getReportXml2() throws Exception {
-        return reportXmlComponent.getReportXml(isListClientCash());
+        return reportXmlComponent.getReportXml(isSpecificationGetClient());
     }
 
     public ByteArrayOutputStream getReportTxt() throws Exception {
-        return reportTxtComponent.getReportTxt(isListClientCash());
+        return reportTxtComponent.getReportTxt(isSpecificationGetClient());
     }
 
 
     public ByteArrayOutputStream getReportPdf() throws Exception {
-        return reportPdfComponent.getReportPdf(isListClientCash());
+        return reportPdfComponent.getReportPdf(isSpecificationGetClient());
     }
 
     public ByteArrayOutputStream getReportDocx() throws Exception {
-        return reportDocxComponent.getReportDocx(isListClientCash());
+        return reportDocxComponent.getReportDocx(isSpecificationGetClient());
     }
 
     public ByteArrayOutputStream getReportXlsx() throws Exception {
-        return reportXlsxComponent.getReportXlsx(isListClientCash());
+        return reportXlsxComponent.getReportXlsx(isSpecificationGetClient());
     }
 
     //кешировать результаты фильтра в оперативке
@@ -107,11 +92,11 @@ public class ClientService {
     }
 
     //кешировать список клиентов в оперативке
-    public List<Client> isListClientCash() {
-        if (list != null) {
-            return list;
-        }
-        return getClient();
-    }
+//    public List<Client> isListClientCash() {
+//        if (list != null) {
+//            return list;
+//        }
+//        return getClient();
+//    }
 
 }

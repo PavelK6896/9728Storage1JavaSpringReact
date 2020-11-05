@@ -27,6 +27,7 @@ export const FormUpdate = (props) => {
     return (
 
         <tr>
+            <th scope="col"></th>
             <th scope="row">{client.id}</th>
 
             <th><label><input value={client.phone}

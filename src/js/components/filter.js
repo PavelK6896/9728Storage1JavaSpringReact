@@ -8,7 +8,6 @@ export const Filter = () => {
 
     useEffect(() => getClient(), [false])
 
-
     function phoneHandler(e) {
 
         localFilterClient(e.target.value)
@@ -27,6 +26,7 @@ export const Filter = () => {
                 name: e.target.value
             })
     }
+
     function titleHandler(e) {
         setFilter(
             {
@@ -49,46 +49,42 @@ export const Filter = () => {
         localFilterClient("");
     }
 
-
     return (
-            <tr>
-                    <th scope="row">всего {state.clientFilter.length}</th>
-                    <th><label><input placeholder={"phone"}
-                                      onChange={phoneHandler}
-                                      value={filter.phone}/></label></th>
+        <tr>
+            <th scope="col"></th>
+            <th scope="row">всего {state.clientFilter.length}</th>
+            <th><label><input placeholder={"phone"}
+                              onChange={phoneHandler}
+                              value={filter.phone}/></label></th>
 
-                    <th><label><input placeholder={"name"}
-                                      type="text"
-                                      value={filter.name}
-                                      onChange={nameHandler}/></label></th>
-                    <th><label> <input placeholder={"title"}
-                                       value={filter.title}
-                                       onChange={titleHandler}/></label></th>
+            <th><label><input placeholder={"name"}
+                              type="text"
+                              value={filter.name}
+                              onChange={nameHandler}/></label></th>
+            <th><label> <input placeholder={"title"}
+                               value={filter.title}
+                               onChange={titleHandler}/></label></th>
+            <th>
+                <button type="button"
+                        style={{
+                            width: '150px',
+                        }}
+                        onClick={() => getClient(filter)}
+                        className="btn btn-secondary">
+                    фильтровать
+                </button>
+            </th>
 
-                    <th>
-                        <button type="button"
-                                style={{
-                                    width: '150px',
-                                }}
-                                onClick={() => getClient(filter)}
-                                className="btn btn-secondary">
-                            фильтровать
-                        </button>
-                    </th>
-
-                    <th>
-                        <button type="button"
-                                style={{
-                                    width: '150px',
-                                }}
-                                onClick={clearHandler}
-                                className="btn btn-warning">
-                            очистить
-                        </button>
-                    </th>
-
-            </tr>
-
-
+            <th>
+                <button type="button"
+                        style={{
+                            width: '150px',
+                        }}
+                        onClick={clearHandler}
+                        className="btn btn-warning">
+                    очистить
+                </button>
+            </th>
+        </tr>
     )
 }
