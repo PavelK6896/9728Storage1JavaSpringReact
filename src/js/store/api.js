@@ -17,9 +17,9 @@ const initialState = {
 export const ApiState = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const urlApi1 = 'http://localhost:8080/api/v1/client'
+    const urlApi = 'http://localhost:8080/api/v1/client'
     const urlApi2 = 'https://storage9729.herokuapp.com/api/v1/client'
-    const urlApi = 'http://18.156.192.31/storage1/api/v1/client'
+    const urlApi1 = 'http://18.156.192.31/storage1/api/v1/client'
 
     const getClient = (filter = {}) => {
         if (filter.name != null || filter.title != null || filter.phone != null) {
@@ -105,7 +105,8 @@ export const ApiState = ({children}) => {
         let fileName = format
         fetch(urlApi + '/' + format)
             .then(resp => {
-                fileName = resp.headers.get("filename")
+                fileName = decodeURI(resp.headers.get("filename"));
+                //let  fileName2 = decodeURI(resp.headers.get("content-disposition"));
                 return resp.blob()
             })
             .then(blob => {

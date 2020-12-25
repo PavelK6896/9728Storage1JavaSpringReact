@@ -151,7 +151,7 @@ export const Client = () => {
 
                                     </button>
                                 </td>
-
+                                <th scope="col"></th>
                             </tr>
                         )
                     }

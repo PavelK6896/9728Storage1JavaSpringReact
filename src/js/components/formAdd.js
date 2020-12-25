@@ -59,6 +59,7 @@ export const FormAdd = (props) => {
                     отменить
                 </button>
             </th>
+            <th scope="col"></th>
         </tr>
     )
 }

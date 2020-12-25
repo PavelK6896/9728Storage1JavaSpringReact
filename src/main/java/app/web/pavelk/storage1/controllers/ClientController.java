@@ -13,6 +13,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -118,7 +119,7 @@ public class ClientController {
             body = ResponseEntity
                     .ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.odt")
-                    .header("filename", "report1.odt")
+                    .header("filename", URLEncoder.encode("Отчет.odt", "UTF-8"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(clientService.getReportOdt().toByteArray());
         } catch (Exception e) {
@@ -136,7 +137,7 @@ public class ClientController {
             body = ResponseEntity
                     .ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.xml")
-                    .header("filename", "report1.xml")
+                    .header("filename", URLEncoder.encode("Отчет.xml", "UTF-8"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(clientService.getReportXml2().toByteArray());
         } catch (Exception e) {
@@ -154,7 +155,7 @@ public class ClientController {
             body = ResponseEntity
                     .ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.xml")
-                    .header("filename", "report1.xml")
+                    .header("filename", URLEncoder.encode("Отчет.xml", "UTF-8"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(clientService.getReportXml().toByteArray());
         } catch (Exception e) {
@@ -172,7 +173,7 @@ public class ClientController {
             body = ResponseEntity
                     .ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.txt")
-                    .header("filename", "report1.txt")
+                    .header("filename", URLEncoder.encode("Отчет.txt", "UTF-8"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(clientService.getReportTxt().toByteArray());
         } catch (Exception e) {
@@ -191,7 +192,7 @@ public class ClientController {
             body = ResponseEntity
                     .ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.pdf")
-                    .header("filename", "report1.pdf")
+                    .header("filename", URLEncoder.encode("Отчет.pdf", "UTF-8"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(clientService.getReportPdf().toByteArray());
         } catch (Exception e) {
@@ -208,8 +209,8 @@ public class ClientController {
         try {
             body = ResponseEntity
                     .ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.docx")
-                    .header("filename", "report1.docx")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + URLEncoder.encode("Отчет.docx", "UTF-8"))
+                    .header("filename", URLEncoder.encode("Отчет.docx", "UTF-8"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(clientService.getReportDocx().toByteArray());
         } catch (Exception e) {
@@ -228,7 +229,7 @@ public class ClientController {
             body = ResponseEntity
                     .ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=report1.xlsx")
-                    .header("filename", "report1.xlsx")
+                    .header("filename", URLEncoder.encode("Отчет.xlsx", "UTF-8"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(clientService.getReportXlsx().toByteArray());
         } catch (Exception e) {
