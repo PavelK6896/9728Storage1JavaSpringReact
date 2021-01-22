@@ -1,5 +1,7 @@
 import React, {useContext, useReducer} from "react";
 import {reducer} from "./reducer";
+import {url1} from "../util/url1";
+import {logUtil} from "../util/log1";
 
 
 const GlobalContext = React.createContext()
@@ -17,35 +19,44 @@ const initialState = {
 export const ApiState = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const urlApi = 'http://localhost:8080/api/v1/client'
-    const urlApi2 = 'https://storage9729.herokuapp.com/api/v1/client'
-    const urlApi1 = 'http://18.156.192.31/storage1/api/v1/client'
 
     const getClient = (filter = {}) => {
         if (filter.name != null || filter.title != null || filter.phone != null) {
-            fetch(urlApi + '/filter', {
+
+            fetch(url1.filter1, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(filter)
-            }).then(response => response.json()).then(response => {
-                console.log(response)
-                dispatch({type: 'getClient', response})
             })
-
+                .then(response => {
+                    if (response.status === 200) {
+                        response.json()
+                            .then(response => {
+                                logUtil('getClient filter+ ', response)
+                                dispatch({type: 'getClient', response})
+                            })
+                            .catch(error => logUtil('getClient- ', error))
+                    }
+                })
         } else {
-            fetch(urlApi)
-                .then(response => response.json()).then(response => {
-                dispatch({type: 'getClient', response})
-            })
-
+            fetch(url1.get1)
+                .then(response => {
+                    if (response.status === 200) {
+                        response.json()
+                            .then(response => {
+                                logUtil('getClient+ ', response)
+                                dispatch({type: 'getClient', response})
+                            })
+                            .catch(error => logUtil('getClient- ', error))
+                    }
+                })
         }
     }
 
     const updateClient = (client) => {
-
-        fetch(urlApi, {
+        fetch(url1.update1, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -53,84 +64,79 @@ export const ApiState = ({children}) => {
             body: JSON.stringify(client)
         })
             .then(response => {
-                return response.json()
-            })
-            .then(response => {
-                dispatch({type: 'updateClient', response})
+                if (response.status === 200) {
+                    response.json()
+                        .then(response => {
+                            logUtil('updateClient+ ', response)
+                            dispatch({type: 'updateClient', response})
+                        })
+                        .catch(error => logUtil('updateClient- ', error))
+                }
             })
     }
 
     const addClient = (client) => {
         client.id = null
-        fetch(urlApi, {
+        fetch(url1.add1, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(client)
-        }).then(response => {
-            if (response.status == 204) {
-                dispatch({type: 'error', error: "такой номер уже есть"})
-            } else if (response.status == 200) {
-                return response.json();
-            }
-        }).then(response => {
-            if (!response) {
-                return
-            }
-            client.id = response.id
-            dispatch({type: 'addClient', client})
         })
+            .then(response => {
+                if (response.status === 201) {
+                    response.json()
+                        .then(response => {
+                            logUtil('addClient+ ', response)
+                            client.id = response.id
+                            dispatch({type: 'addClient', client})
+                        })
+                        .catch(error => logUtil('addClient- ', error))
+                } else if (response.status === 400) {
+                    logUtil('addClient- 400')
+                    dispatch({type: 'error', error: "такой номер уже есть"})
+                }
+            })
     }
 
     const deleteClient = (id) => {
-
-        fetch(urlApi + '/' + id, {
+        fetch(url1.delete1 + '/' + id, {
             method: 'DELETE'
         }).then(response => {
-
                 if (response.ok) {
+                    logUtil('deleteClient+ ', response)
                     dispatch({type: 'deleteClient', id})
+                } else {
+                    logUtil('deleteClient- ', response)
                 }
             }
         )
     }
 
-    const localFilterClient = (ft) => {
-        dispatch({type: 'localFilterClient', ft})
-
+    const localFilterClient = (filter) => {
+        dispatch({type: 'localFilterClient', filter})
     }
 
     const loadReportFile = (format) => {
-        let fileName = format
-        fetch(urlApi + '/' + format)
-            .then(resp => {
-                fileName = decodeURI(resp.headers.get("filename"));
-                //let  fileName2 = decodeURI(resp.headers.get("content-disposition"));
-                return resp.blob()
+        fetch(url1.file1 + format)
+            .then(response => {
+                logUtil('loadReportFile+ ', response)
+                response.blob().then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+
+                    let fileName = decodeURI(response.headers.get('content-disposition')).split("filename=");
+                    a.download = fileName[1]
+
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }).catch(error => logUtil('loadReportFile- ', error));
             })
-            .then(blob => {
-
-                // let reader = new FileReader();
-                // reader.readAsArrayBuffer(blob)
-
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = fileName
-                document.body.appendChild(a);
-                a.click();
-
-                // alert(a.download);
-                // console.log(a.download)
-                a.remove();
-                window.URL.revokeObjectURL(url); //не сохроняеть сылку на файл
-            })
-            .catch(() => alert('error file!'));
-
-        // window.open(url, 'to.odt');
-        // alert('your file has downloaded!'); // or you know, something with better UX...
     }
 
     return (
