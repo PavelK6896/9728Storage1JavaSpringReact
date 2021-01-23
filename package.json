@@ -2,6 +2,7 @@
   "name": "storage3",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "/9728Storage1JavaSpringReact/",
   "license": "MIT",
   "scripts": {
     "start": "webpack --mode development --watch",
@@ -24,6 +25,7 @@
     "bootstrap": "^4.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "validator": "^13.1.17"
   }
 }

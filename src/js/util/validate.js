@@ -6,5 +6,8 @@ export const isValidTitle = (title) =>  validator.matches(title, '[A-Za-z]{3,255
 
 
 
-
+export const authData = {
+    login: "",
+    password: ""
+}
 

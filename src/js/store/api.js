@@ -2,6 +2,7 @@ import React, {useContext, useReducer} from "react";
 import {reducer} from "./reducer";
 import {url1} from "../util/url1";
 import {logUtil} from "../util/log1";
+import {login1, logout1} from "../service/authService";
 
 
 const GlobalContext = React.createContext()
@@ -19,6 +20,7 @@ const initialState = {
 export const ApiState = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
+
 
     const getClient = (filter = {}) => {
         if (filter.name != null || filter.title != null || filter.phone != null) {
@@ -139,9 +141,12 @@ export const ApiState = ({children}) => {
             })
     }
 
+
     return (
         <GlobalContext.Provider value={{
             state,
+            login1,
+            logout1,
             getClient,
             updateClient,
             addClient,

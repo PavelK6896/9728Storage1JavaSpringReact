@@ -3,13 +3,23 @@ import {useGlobalContext} from "../store/api";
 import {Filter} from "./filter";
 import {FormUpdate} from "./formUpdate";
 import {FormAdd} from "./formAdd";
+import {url2} from "../util/url1";
+import {useHistory} from "react-router-dom";
+
 
 export const Client = () => {
 
-    const {state, getClient, deleteClient, loadReportFile} = useGlobalContext()
+    const {state, logout1, getClient, deleteClient, loadReportFile} = useGlobalContext()
     const [client, setClient] = useState({update: false, updateIndex: null, add: false});
 
     useEffect(() => getClient(), [false])
+    let history2 = useHistory();
+
+
+    const logout = () => {
+        logout1()
+        history2.push('/login')
+    }
 
 
     const updateClientLocal = (index) => {
@@ -58,21 +68,22 @@ export const Client = () => {
             <tr>
                 <th scope="col"></th>
                 <th scope="col">
-                    <a  className="btn btn-success mr-1" href={"/"}>&lt;-</a>
-                    <button type="button" className="btn btn-primary" onClick={buttonAddClient}>+</button>
+                    <a className="btn btn-success mr-1" href={url2.urlPK}>PK</a>
+                    <button type="button" className="btn btn-primary mr-1" onClick={buttonAddClient}>+</button>
+                    <button type="button" className="btn btn-warning mr-1" onClick={logout}>logout</button>
                 </th>
                 <th scope="col">Phone</th>
                 <th scope="col">Name</th>
                 <th scope="col">Title</th>
                 <th scope="col">
-                    <button type="button" className="btn btn-primary mr-2" onClick={buttonOdt}>odt</button>
-                    <button type="button" className="btn btn-primary mr-2" onClick={buttonXml}>xml</button>
-                    <button type="button" className="btn btn-primary mr-2" onClick={buttonTxt}>txt</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonXlsx}>xlsx</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonDocx}>docx</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonPdf}>pdf</button>
                 </th>
                 <th scope="col">
-                    <button type="button" className="btn btn-primary mr-2" onClick={buttonPdf}>pdf</button>
-                    <button type="button" className="btn btn-primary mr-2" onClick={buttonDocx}>docx</button>
-                    <button type="button" className="btn btn-primary mr-2" onClick={buttonXlsx}>xlsx</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonTxt}>txt</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonXml}>xml</button>
+                    <button type="button" className="btn btn-primary mr-2" onClick={buttonOdt}>odt</button>
                 </th>
                 <th scope="col"></th>
             </tr>
