@@ -1,18 +1,21 @@
 import React, {useState} from "react";
 import {useGlobalContext} from "../store/api";
 import {isValidName, isValidPhoneNumber, isValidTitle} from "../util/validate";
+import {useHistory} from "react-router-dom";
 
 
 export const FormUpdate = (props) => {
 
     const {state, updateClient} = useGlobalContext()
 
+    let history2 = useHistory();
+
     const [client, setClient] = useState(
         state.clientFilter[props.num]
     );
 
     const updateClientState = () => {
-        updateClient(client)
+        updateClient(client, history2)
         props.cancelClientLocal()
     }
 

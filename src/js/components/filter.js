@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {useGlobalContext} from "../store/api";
+import {useHistory} from "react-router-dom";
 
 export const Filter = () => {
 
     const [filter, setFilter] = useState({});
     const {state, getClient, localFilterClient} = useGlobalContext()
 
-    useEffect(() => getClient(), [false])
+    let history2 = useHistory();
+
+    useEffect(() => getClient({}, history2), [false])
 
     function phoneHandler(e) {
 
@@ -45,7 +48,7 @@ export const Filter = () => {
                 phone: "",
             }
         )
-        getClient();
+        getClient({}, history2);
         localFilterClient("");
     }
 
@@ -69,7 +72,7 @@ export const Filter = () => {
                         style={{
                             width: '150px',
                         }}
-                        onClick={() => getClient(filter)}
+                        onClick={() => getClient(filter, history2)}
                         className="btn btn-secondary">
                     фильтровать
                 </button>

@@ -12,15 +12,13 @@ export const Client = () => {
     const {state, logout1, getClient, deleteClient, loadReportFile} = useGlobalContext()
     const [client, setClient] = useState({update: false, updateIndex: null, add: false});
 
-    useEffect(() => getClient(), [false])
     let history2 = useHistory();
-
+    useEffect(() => getClient({}, history2), [false])
 
     const logout = () => {
         logout1()
         history2.push('/login')
     }
-
 
     const updateClientLocal = (index) => {
         setClient({...client, update: true, updateIndex: index})
@@ -39,27 +37,27 @@ export const Client = () => {
     }
 
     const buttonOdt = () => {
-        loadReportFile('reportOdt')
+        loadReportFile('reportOdt', history2)
     }
 
     const buttonXml = () => {
-        loadReportFile('reportXml')
+        loadReportFile('reportXml', history2)
     }
 
     const buttonTxt = () => {
-        loadReportFile('reportTxt')
+        loadReportFile('reportTxt', history2)
     }
 
     const buttonPdf = () => {
-        loadReportFile('reportPdf')
+        loadReportFile('reportPdf', history2)
     }
 
     const buttonDocx = () => {
-        loadReportFile('reportDocx')
+        loadReportFile('reportDocx', history2)
     }
 
     const buttonXlsx = () => {
-        loadReportFile('reportXlsx')
+        loadReportFile('reportXlsx', history2)
     }
 
     return (<div>
@@ -143,7 +141,7 @@ export const Client = () => {
 
                                 <td>
                                     <button type="button"
-                                            onClick={() => deleteClient(o.id)}
+                                            onClick={() => deleteClient(o.id, history2)}
                                             className="btn btn-danger"
                                             style={{
                                                 width: '150px',

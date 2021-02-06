@@ -2,6 +2,12 @@ export function reducer(state, action) {
 
     switch (action.type) {
 
+        case 'info1':
+            return {
+                ...state,
+                info1: action.info1
+            }
+
         case 'error':
             return {
                 ...state,

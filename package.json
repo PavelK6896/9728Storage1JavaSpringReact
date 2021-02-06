@@ -2,6 +2,7 @@
   "name": "storage3",
   "version": "1.0.0",
   "main": "index.js",
+  "outputPath": "docs",
   "homepage": "/9728Storage1JavaSpringReact/",
   "license": "MIT",
   "scripts": {

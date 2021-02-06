@@ -16,6 +16,8 @@ export const Login = () => {
                 response.json()
                     .then(response => {
                         logUtil('login1+ ', response)
+                        localStorage.setItem('authenticationToken', response.authenticationToken)
+                        localStorage.setItem('expiresAt', response.expiresAt)
                         history1.push('/');
                     })
                     .catch(error => logUtil('login1- ', error))
@@ -31,6 +33,7 @@ export const Login = () => {
     }
 
     return (
+
         <div style={{
             height: '100vh',
             background: 'rgba(62,77,106,0.83)',

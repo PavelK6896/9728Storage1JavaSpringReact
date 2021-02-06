@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import {useGlobalContext} from "../store/api";
 import {isValidName, isValidPhoneNumber, isValidTitle} from "../util/validate";
+import {useHistory} from "react-router-dom";
 
 export const FormAdd = (props) => {
 
     const {addClient} = useGlobalContext()
 
+    let history2 = useHistory();
     const [client, setClient] = useState(
         {id: "", phone: "", name: "", title: ""}
     );
@@ -37,7 +39,7 @@ export const FormAdd = (props) => {
             </th>
             <th>
                 <button type="button"
-                        onClick={() => addClient(client)}
+                        onClick={() => addClient(client, history2)}
                         className="btn btn-success"
                         style={{
                             width: '150px',
